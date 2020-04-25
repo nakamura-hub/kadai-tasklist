@@ -1,20 +1,28 @@
 <h1>メッセージ一覧</h1>
-
-<% if @tasks.any? %>
+<% if logged_in?  %>
+  <% if @tasks.any? %>
   <table class="table table-striped">
     <thead>
       <tr>
+        <th>名前</th>
         <th>id</th>
         <th>ステータス</th>
         <th>タスク</th>
+        <th></th>
       </tr>
     </thead>
     <tbody>
       <% @tasks.each do |task| %>
         <tr>
+          <td><%= current_user.name %></td>
           <td><%= link_to task.id, task %></td>
           <td><%= task.status %></td>
           <td><%= task.content %></td>
+          <td>
+            <% if current_user == task.user %>
+              <%= link_to "削除", task, method: :delete, data: { confirm: "タスクを削除しますか？" }, class: 'btn btn-danger btn-sm' %>
+            <% end %>
+          </td>
         </tr>
       <% end %>
     </tbody>
@@ -22,6 +30,6 @@
   <div>
     <%= paginate @tasks %>
   </div>
+  <% end %>
 <% end %>
-
 <%= link_to '新規タスクの作成', new_task_path, class: "btn btn-primary" %>
