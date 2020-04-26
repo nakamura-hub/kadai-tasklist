@@ -24,7 +24,7 @@ class TasksController < ApplicationController
     else
       @tasks = current_user.tasks.order(id: :desc).page(params[:page])
       flash.now[:danger] = 'Taskが作成されませんでした。'
-      render 'tasks/index'
+      render :new
     end
   end
 
@@ -66,10 +66,10 @@ class TasksController < ApplicationController
      end
    end
    
-   def current_user_task_id
-    current_user_task_id = current_user.tasks.find_by(id: params[:id])
-    unless current_user_task_id == @task
-      redirect_to root_url
-    end
-   end
+  # def current_user_task_id
+  #   current_user_task_id = current_user.tasks.find_by(id: params[:id])
+  #   unless current_user_task_id == @task
+  #     redirect_to root_url
+  #   end
+  # end
 end
